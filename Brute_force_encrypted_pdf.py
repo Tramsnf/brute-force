@@ -2,6 +2,8 @@ import PyPDF2
 import itertools
 import string
 import concurrent.futures
+import tkinter as tk
+from tkinter import filedialog
 
 
 def try_password(file_path, password):
@@ -40,7 +42,19 @@ def brute_force_password(file_path, min_length=1, max_length=8, charset=string.p
     print("Password not found within specified constraints.")
 
 
+def main():
+    root = tk.Tk()
+    root.withdraw()  # Hide the main tkinter window
+
+    file_path = filedialog.askopenfilename(
+        title="Select a PDF file", filetypes=[("PDF files", "*.pdf")])
+
+    if file_path:
+        # Adjust 'max_workers' as needed based on your CPU.
+        brute_force_password(file_path, max_workers=4)
+    else:
+        print("No file selected.")
+
+
 if __name__ == '__main__':
-    file_path = 'path/to/your/pdf/file.pdf'
-    # Adjust 'max_workers' as needed based on your CPU.
-    brute_force_password(file_path, max_workers=4)
+    main()
